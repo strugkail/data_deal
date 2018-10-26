@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.strugkail.mapper.ImageMapper" >
+  <resultMap id="BaseResultMap" type="com.strugkail.entity.Image" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.strugkail.entity.Image" extends="BaseResultMap" >
+    <result column="base64Str" property="base64str" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, imgUrl, create_time, create_name, del_flag
+  </sql>
+  <sql id="Blob_Column_List" >
+    base64Str
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_image
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findList" resultMap="ResultMapWithBLOBs" >
+    select
+    SQL_CALC_FOUND_ROWS
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_image
+    where del_flag = '0'
+    <if test="dateStart != null and dateStart != ''">
+      AND create_time >= #{dateStart}
+    </if>
+    <if test="dateEnd != null and dateEnd !='' ">
+      <![CDATA[ AND create_time <= #{dateEnd}]]>
+    </if>
+    order by create_time asc
+    limit #{pageNo},#{pageSize}
+  </select>
+  <select id="getTotalSize" resultType="Integer">
+    select FOUND_ROWS();
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_image
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.strugkail.entity.Image" >
+    insert into t_image (id, imgUrl, create_time, 
+      create_name, del_flag, base64Str
+      )
+    values (#{id,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createName,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}, #{base64str,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.strugkail.entity.Image" >
+    insert into t_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="imgurl != null" >
+        imgUrl,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createName != null" >
+        create_name,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="base64str != null" >
+        base64Str,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createName != null" >
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="base64str != null" >
+        #{base64str,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.strugkail.entity.Image" >
+    update t_image
+    <set >
+      <if test="imgurl != null" >
+        imgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createName != null" >
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="base64str != null" >
+        base64Str = #{base64str,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.strugkail.entity.Image" >
+    update t_image
+    set imgUrl = #{imgurl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_name = #{createName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      base64Str = #{base64str,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.strugkail.entity.Image" >
+    update t_image
+    set imgUrl = #{imgurl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_name = #{createName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

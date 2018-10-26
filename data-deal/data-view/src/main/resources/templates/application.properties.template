@@ -1,0 +1,48 @@
+#debug=true
+
+# logback config
+logging.config=classpath:logging-config.xml
+
+# deal mysql datasource
+#spring.datasource.deal.driverClassName=com.mysql.jdbc.Driver
+#spring.datasource.deal.url=jdbc=mysql=//192.168.2.67=3306/data_deal?useUnicode=true&characterEncoding=utf-8
+#spring.datasource.deal.username=root
+#spring.datasource.deal.password=sihengit
+#deal.mybatis.mapper-locations=classpath=mybatis/dealMapper/*.xml
+
+#tomcat config
+server.port=9999
+
+#kafka config
+bootstrap.servers=192.168.1.116:9092
+group.id=con-consumer-group
+auto.offset.reset=latest
+topic.name=test
+
+# spark streaming config
+app.name=my-first-application
+master=local[2]
+
+# freemarker template config
+
+spring.freemarker.allow-request-override=false
+spring.freemarker.cache= true
+spring.freemarker.check-template-location= true
+spring.freemarker.charset= UTF-8
+spring.freemarker.content-type= text/html
+spring.freemarker.expose-request-attributes= false
+spring.freemarker.expose-session-attributes= false
+spring.freemarker.expose-spring-macro-helpers= false
+spring.freemarker.prefix=
+spring.freemarker.suffix= .ftl
+
+
+mybatis.mapper-locations= classpath=mybatis/dealMapper/*.xml
+mybatis.type-aliases-package= com.winter.model
+
+#pagehelper分页插件
+
+pagehelper.helperDialect= mysql
+pagehelper.reasonable= true
+pagehelper.supportMethodsArguments= true
+pagehelper.params= count=countSql

@@ -1,0 +1,52 @@
+server:
+  port: 9999
+
+# logback config
+logging:
+  config: classpath:logging-config.xml
+
+spring:
+# 数据源配置
+    datasource:
+      primary:
+        driver-class-name: com.mysql.jdbc.Driver
+        # 多数据源必须用 jdbc-url 否则找不到对应url
+#        url: jdbc:mysql://192.168.2.67:3306/data_deal?useUnicode=true&characterEncoding=utf-8
+        jdbc-url: jdbc:mysql://localhost:3306/world?useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: 123456
+      secondary:
+        driver-class-name: com.mysql.jdbc.Driver
+        # 多数据源必须用 jdbc-url 否则找不到对应url
+#        url: jdbc:mysql://192.168.2.67:3306/20180209bak?useUnicode=true&characterEncoding=utf-8
+        jdbc-url: jdbc:mysql://localhost:3306/data_deal?useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: 123456
+   # freemarker template config
+    freemarker:
+      allow-request-override: false
+      cache: true
+      check-template-location: true
+      charset: UTF-8
+      content-type: text/html
+      expose-request-attributes: false
+      expose-session-attributes: false
+      expose-spring-macro-helpers: false
+      prefix: /freemarker/
+      suffix: .ftl
+mybatis:
+  mapper-locations: classpath:mapper/image/*.xml
+  type-aliases-package: com.strugkail.entity
+
+#pagehelper分页插件
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+# static file config
+classpath:  /static  /views
+
+
+
